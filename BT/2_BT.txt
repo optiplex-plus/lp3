@@ -1,0 +1,647 @@
+Write a program in solidity to create Student data. Use the following constructs:1. Structures2. ArraysDeploy this as a smart contract on Ethereum and Observe the transaction fee and Gas values.
+
+how to perform this Blockchain Technology subject assignment ?
+For your SPPU BE Computer Engineering – Blockchain Technology practical, you can implement a Student Data smart contract using Solidity struct and array, deploy it on Ethereum using Remix IDE, and record the transaction fee and gas values.
+
+I'll show you how to perform it entirely in Remix IDE using the Remix VM, without spending Sepolia ETH or real ETH. You can also deploy on Sepolia if your practical specifically requires the Ethereum testnet.
+
+1. Solidity program
+The smart contract allows you to:
+
+Create student records using a struct.
+
+Store multiple students using an array.
+
+Add student data.
+
+Display an individual student's details.
+
+Display all students.
+
+Observe gas consumption when transactions are executed.
+
+
+ // SPDX-License-Identifier: MIT
+pragma solidity 0.8.38;
+
+contract StudentData {
+
+    // Structure to store student information
+    struct Student {
+        uint rollNo;
+        string name;
+        uint age;
+        string department;
+    }
+
+    // Array to store multiple students
+    Student[] public students;
+
+    // Add a new student
+    function addStudent(
+        uint _rollNo,
+        string memory _name,
+        uint _age,
+        string memory _department
+    ) public {
+        students.push(Student(_rollNo, _name, _age, _department));
+    }
+
+    // Get total number of students
+    function getStudentCount() public view returns (uint) {
+        return students.length;
+    }
+
+    // Get details of a particular student
+    function getStudent(uint index)
+        public
+        view
+        returns (uint, string memory, uint, string memory)
+    {
+        Student memory s = students[index];
+        return (s.rollNo, s.name, s.age, s.department);
+    }
+}
+
+Note: pragma solidity 0.8.38; requires the exact compiler version. If Remix does not load it, choose the exact version from the compiler dropdown or use pragma solidity ^0.8.0; with an available 0.8.x compiler.
+
+2. Perform the practical in Remix IDE
+Website: Remix IDE
+
+Introduction to Solidity: Build an Ethereum smart contract | TheServerSide
+
+Debugging Transactions — Remix - Ethereum IDE 1 documentation
+
+Creating and Deploying a Contract — Remix - Ethereum IDE 1 documentation
+
+Step 1: Create a Solidity file
+Open Remix IDE.
+
+Click File Explorer.
+
+Create a new file named StudentData.sol.
+
+Paste the Solidity program given above.
+
+Step 2: Compile the contract
+Click the Solidity Compiler icon.
+
+Select compiler version 0.8.38.
+
+Click Compile StudentData.sol.
+
+Ensure that the compilation succeeds without errors.
+
+Step 3: Deploy the contract
+Click Deploy & Run Transactions.
+
+Under Environment, select Remix VM (Cancun) or the available Remix VM.
+
+Select StudentData from the contract dropdown.
+
+Click Deploy.
+
+The contract will appear under Deployed Contracts.
+
+Deployment successful
+The Remix VM uses simulated ETH, so you can execute transactions without using your Sepolia ETH.
+
+3. Execute the smart contract
+Expand StudentData under Deployed Contracts.
+
+Add student records
+The addStudent function has four input fields. Enter the following data:
+
+Student 1
+
+Roll No
+1
+
+Name
+Rahul
+
+Age
+20
+
+Department
+Computer
+
+Enter as: 1, Rahul, 20, Computer
+
+Click transact next to addStudent.
+
+Add another student:
+
+Roll No
+
+Name
+
+Age
+
+Department
+
+2
+
+Priya
+
+21
+
+IT
+
+3
+
+Amit
+
+20
+
+Mechanical
+
+Click transact for each record.
+
+Important: Each call to addStudent is a transaction and consumes gas because it modifies blockchain storage.
+
+Retrieve student records
+Click getStudentCount → returns 3.
+
+Click getStudent and enter index 0 → returns Rahul's details.
+
+Enter index 1 → returns Priya's details.
+
+Enter index 2 → returns Amit's details.
+
+Array indexing starts from 0.
+
+You can also expand the public students array and enter index 0, 1, or 2 to retrieve stored fields.
+
+4. Observe Gas and Transaction Fee
+After every transaction, Remix displays the transaction details.
+
+solidity - Debugging Ethereum Contract by printing the values - Ethereum Stack Exchange
+
+remix - how to verify the minimum gas fee for deploying a contract on the mainnet? - Ethereum Stack Exchange
+
+Debugger — Remix - Ethereum IDE 1 documentation
+
+Where to find the values
+After clicking transact, look at the Remix Terminal at the bottom.
+
+Expand the transaction log.
+
+Find the transaction receipt.
+
+Record the following values:
+
+Parameter
+
+Meaning
+
+Gas Used
+
+Gas consumed by the transaction
+
+Transaction Cost
+
+Total gas cost in ETH
+
+Execution Cost
+
+Gas used for contract execution
+
+Block Number
+
+Block containing the transaction
+
+Gas values depend on the specific transaction, compiler, and execution environment.
+
+5. Calculate the Transaction Fee
+The transaction fee on Ethereum is calculated using:
+
+Transaction Fee
+=
+Gas Used
+×
+Gas Price
+Transaction Fee=Gas Used×Gas Price
+For example, if:
+
+Gas Used = 100,000
+
+Gas Price = 10 Gwei
+
+Then:
+
+100000
+×
+10
+ Gwei
+=
+0.001
+ ETH
+100000×10 Gwei=0.001 ETH
+This is an illustrative example, not the actual fee for your deployment.
+
+Note: Remix VM provides simulated transaction values. Real Ethereum transaction fees depend on network gas prices.
+
+6. Observation Table
+Fill this table using the actual values displayed by Remix after performing the transactions.
+
+Operation
+
+Gas Used
+
+Transaction Fee (ETH)
+
+Deploy Contract
+
+—
+
+—
+
+Add Student 1
+
+—
+
+—
+
+Add Student 2
+
+—
+
+—
+
+Add Student 3
+
+—
+
+—
+
+Get Student Count
+
+0*
+
+0*
+
+Get Student Details
+
+0*
+
+0*
+
+*Read-only view calls executed locally in Remix VM do not require an on-chain transaction or consume transaction fees. Actual gas estimates may still be displayed.
+7. If your teacher requires deployment on Ethereum Sepolia
+Use this only if a testnet deployment is specifically required.
+
+Install MetaMask.
+
+Enable the Sepolia test network.
+
+Connect Remix to MetaMask using Injected Provider.
+
+Ensure you have Sepolia ETH.
+
+Deploy the contract and confirm the transaction in MetaMask.
+
+Add student records and confirm each transaction.
+
+View the transaction details on Sepolia Etherscan.
+
+Important: Since you previously mentioned having only 0.05 SepoliaETH, the Remix VM is the safest choice for testing all three student records without risking your testnet balance. Deploying and adding records on Sepolia will consume test ETH.
+
+8. Result
+The Solidity smart contract was successfully implemented using structures and arrays. Student records were added and retrieved using Remix IDE. Gas consumption and transaction fees were observed for deployment and data modification operations.
+
+9. Viva Questions
+1. What is a structure in Solidity?
+A structure (struct) is a user-defined data type used to group multiple related variables.
+
+2. What is an array in Solidity?
+An array stores multiple elements of the same data type or structure.
+
+3. What is gas in Ethereum?
+Gas is the computational unit used to measure the resources required to execute operations on Ethereum.
+
+4. Why does adding a student consume gas?
+Adding a student modifies blockchain storage, requiring computational resources.
+
+5. What is the difference between view and public?
+view functions read data without modifying blockchain state. public specifies that a function can be called externally and internally.
+
+6. Why is blockchain data difficult to modify?
+Blockchain records are protected by cryptographic mechanisms and consensus, making historical data tampering difficult.
+
+If you'd like, I can also provide a version with updateStudent() and deleteStudent() for a more complete student management practical.
+
+also show how to to using sepolia test network with 0.05 SepoliaETH only available...
+Yes. You can deploy your Student Data smart contract on the Ethereum Sepolia test network using only 0.05 SepoliaETH. We’ll minimize transactions and avoid unnecessary spending.
+
+The key is to:
+
+Deploy only once.
+
+Add only 2 student records.
+
+Use read-only functions to retrieve student details.
+
+Avoid redeployment and unnecessary transactions.
+
+1. Estimated SepoliaETH budget
+Operation
+
+Approx. gas
+
+Approx. cost at 1 Gwei
+
+Deploy contract
+
+700,000–1,000,000
+
+0.0007–0.001 ETH
+
+Add Student 1
+
+100,000–150,000
+
+0.0001–0.00015 ETH
+
+Add Student 2
+
+100,000–150,000
+
+0.0001–0.00015 ETH
+
+These are illustrative estimates. Actual gas and fees will depend on network conditions and your compiled contract.
+
+Even at a gas price of 10 Gwei, the example deployment and two student additions would cost approximately 0.01–0.013 ETH, leaving some balance for other operations.
+
+2. Connect MetaMask to Sepolia
+EVM Wallet Setup | Hemi
+
+Write a Smart Contract With ChatGPT, MetaMask, Infura, and Truffle
+
+Step 1: Open MetaMask
+Open your MetaMask browser extension.
+
+Unlock your wallet.
+
+Select the Ethereum Sepolia network.
+
+Check that your balance shows approximately 0.05 SepoliaETH.
+
+If Sepolia is not visible:
+
+Open MetaMask's Settings.
+
+Enable test networks.
+
+Select Sepolia from the network dropdown.
+
+Security: Never share your wallet's Secret Recovery Phrase or private key with Remix, faucets, or anyone else.
+
+Step 2: Open Remix
+Go to Remix IDE.
+
+Open your existing StudentData.sol file.
+
+Compile it using Solidity 0.8.38.
+
+Click Deploy & Run Transactions.
+
+Step 3: Connect Remix to MetaMask
+How to set correct EVM version, for Solidity code, on remix.ethereum.org - Ethereum Stack Exchange
+
+DeFI Decode: A detailed step-by-step guide on Building your own Uniswap V2 DEX in Sepolia Testnet! | by Ben Liu | Medium
+
+Getting Started with Chainlink CCIP | Chainlink Documentation
+
+In Remix:
+
+Select Environment: Injected Provider - MetaMask or Browser Extension (wording depends on Remix version).
+
+MetaMask will ask you to connect.
+
+Select your wallet account.
+
+Confirm the connection.
+
+Check that Remix shows the Sepolia network and your wallet address.
+
+Remix uses the connected browser wallet for transactions. 
+
+Ethereum IDE 1 documentation
++1
+
+3. Deploy the contract carefully
+Before deploying:
+
+Contract: StudentData
+
+Value: 0 ETH
+
+Gas Limit: leave the automatically estimated value
+
+Account: your Sepolia wallet
+
+Now click Deploy.
+
+MetaMask will open a transaction confirmation.
+
+Deploy your First Ethereum Smart Contract with Remix and Alchemy | by Thomas Guibert | Web3 Magazine | Medium
+
+Important: Check before confirming
+MetaMask shows the estimated gas fee.
+
+Confirm only if the transaction is on Sepolia.
+
+Check the fee in ETH.
+
+Do not manually set an unnecessarily high gas price.
+
+If the fee seems unusually high, reject the transaction and try again later.
+
+Deployment consumes gas even though it does not transfer ETH to another person.
+
+Confirm the transaction and wait for it to be mined.
+
+Once successful, Remix displays your deployed contract under Deployed Contracts.
+
+4. Add student records with minimum transactions
+Use the deployed contract instance. Do not deploy again.
+
+Student 1
+Call addStudent with:
+
+1, Rahul, 20, Computer
+Click transact and confirm in MetaMask.
+
+Student 2
+Call addStudent with:
+
+2, Priya, 21, IT
+Click transact and confirm in MetaMask.
+
+Each student addition requires a separate transaction.
+
+Read the student data
+Now click:
+
+getStudentCount → 2
+
+getStudent(0) → Rahul
+
+getStudent(1) → Priya
+
+These are read-only calls and should not require MetaMask transaction confirmation or SepoliaETH.
+
+5. Check transaction fee and gas on Sepolia Etherscan
+Ethereum Contract ABI Specification. Взаимодействие с контрактом / Хабр
+
+How to Deploy a Smart Contract to the Sepolia Testnet
+
+Deploy your First Ethereum Smart Contract with Remix and Alchemy | by Thomas Guibert | Web3 Magazine | Medium
+
+After deploying or adding a student:
+
+Open MetaMask's Activity tab.
+
+Select the transaction.
+
+Click View on block explorer.
+
+This opens Sepolia Etherscan.
+
+You can also open:
+
+Sepolia Etherscan
+Paste your wallet address or transaction hash.
+
+Record these values
+Etherscan field
+
+What to write in practical
+
+Transaction Hash
+
+Transaction identifier
+
+Status
+
+Success
+
+Block
+
+Block number
+
+Gas Used
+
+Actual gas consumed
+
+Gas Price
+
+Effective gas price
+
+Transaction Fee
+
+Actual fee paid
+
+The actual transaction fee can be calculated as:
+
+Fee
+=
+Gas Used
+×
+Effective Gas Price
+Fee=Gas Used×Effective Gas Price
+For example, if a transaction uses 120,000 gas at 2 Gwei:
+
+120000
+×
+2
+ Gwei
+=
+0.00024
+ ETH
+120000×2 Gwei=0.00024 ETH
+This is only an example. Record the actual values from your Sepolia transaction.
+
+6. Practical observation table
+Fill this using the actual Sepolia transaction receipts.
+
+Operation
+
+Gas Used
+
+Fee (SepoliaETH)
+
+Deploy StudentData
+
+___
+
+___
+
+Add Student 1
+
+___
+
+___
+
+Add Student 2
+
+___
+
+___
+
+Get Student Count
+
+No transaction
+
+0
+
+Get Student Details
+
+No transaction
+
+0
+
+Do not write estimated gas values as actual observations. Use Etherscan receipts for your final practical submission.
+
+7. How to preserve your 0.05 SepoliaETH
+Deploy once only.
+
+Use the existing deployed contract for all testing.
+
+Add only 2 students initially.
+
+Don't repeatedly deploy after editing the code.
+
+Don't send ETH in the Value field.
+
+Avoid unnecessary transactions.
+
+Check MetaMask's fee estimate before confirming each transaction.
+
+Your 0.05 SepoliaETH should generally be sufficient for this small practical, but network fees vary. The wallet's fee estimate is the final check.
+
+8. What to include in your practical journal
+Aim
+
+Solidity program
+
+Explanation of struct and array
+
+Remix compilation screenshot
+
+MetaMask Sepolia connection screenshot
+
+Successful contract deployment screenshot
+
+Student records added screenshot
+
+Etherscan transaction receipt screenshot
+
+Gas observation table
+
+Result
+
+Result: The Student Data smart contract was implemented using Solidity structures and arrays, deployed on Ethereum Sepolia testnet, and tested by adding and retrieving student records. Transaction gas usage and fees were observed using Sepolia Etherscan.
+
+My recommendation: First deploy the contract and add one student. Check the fee and remaining balance. Then add the second student. That way, you can verify the costs before spending the rest of your test ETH.

@@ -1,0 +1,464 @@
+Write a smart contract on a test network, for Bank account of a customer for following operations:1. Deposit money 2. Withdraw Money3. Show balance
+
+how to perform this Blockchain Technology subject assignment ?
+use solc compiler version 0.8.38 in remix ide
+Blockchain Technology Practical: Bank Account Smart Contract
+Aim: To write and deploy a Solidity smart contract on a test network that performs the following banking operations:
+
+Deposit money
+
+Withdraw money
+
+Show account balance
+
+We'll use Remix IDE with Solidity compiler version 0.8.38 and deploy the contract on a test network.
+
+1. Smart Contract Code
+Open Remix IDE: Remix IDE
+
+Create a new file named BankAccount.sol.
+
+Paste the following code:
+
+
+ // SPDX-License-Identifier: MIT
+pragma solidity ^0.8.38;
+
+contract BankAccount {
+
+    address public owner;
+
+    // Set the owner when the contract is deployed
+    constructor() {
+        owner = msg.sender;
+    }
+
+    // Deposit money into the bank account
+    function deposit() public payable {
+        require(msg.value > 0, "Deposit amount must be greater than zero");
+    }
+
+    // Withdraw money from the bank account
+    function withdraw(uint amount) public {
+        require(msg.sender == owner, "Only account owner can withdraw");
+        require(amount > 0, "Amount must be greater than zero");
+        require(amount <= address(this).balance, "Insufficient balance");
+
+        payable(owner).transfer(amount);
+    }
+
+    // Show the current balance of the bank account
+    function showBalance() public view returns (uint) {
+        return address(this).balance;
+    }
+}
+2. Explanation of the code
+Component
+
+Description
+
+pragma solidity ^0.8.38
+
+Specifies the Solidity compiler version.
+
+address public owner
+
+Stores the address of the customer/account owner.
+
+constructor()
+
+Sets the deployer as the account owner.
+
+deposit()
+
+Accepts Ether using payable.
+
+msg.value
+
+Amount of Ether sent with the transaction, in Wei.
+
+withdraw(uint amount)
+
+Withdraws the specified amount of Ether.
+
+require()
+
+Checks conditions and prevents invalid operations.
+
+address(this).balance
+
+Returns the Ether balance stored in the contract.
+
+showBalance()
+
+Displays the current contract balance.
+
+Important: Solidity stores Ether amounts in Wei.
+1 Ether = 10¹⁸ Wei
+
+3. Compile the Smart Contract
+Solidity Tutorial - How to build your first Smart Contract
+
+Open Remix IDE.
+
+Click File Explorer.
+
+Create a new file named BankAccount.sol.
+
+Paste the smart contract code.
+
+Click the Solidity Compiler icon on the left.
+
+Select compiler version 0.8.38.
+
+Click Compile BankAccount.sol.
+
+If compilation succeeds, a green check mark will appear.
+
+4. Deploy the Contract on a Test Network
+We'll use the Sepolia Ethereum test network.
+
+Step 1: Set up MetaMask
+Install the MetaMask browser extension.
+
+Create or import a wallet.
+
+Enable the Sepolia test network in MetaMask.
+
+Obtain Sepolia test ETH from a faucet to pay for deployment and transactions.
+
+Test ETH has no real monetary value. Never use your real wallet's private key in Remix or share it with anyone.
+
+Step 2: Connect Remix to MetaMask
+How to set correct EVM version, for Solidity code, on remix.ethereum.org - Ethereum Stack Exchange
+Learn Solidity lesson 7. Deploying smart contracts using Remix. | by João Paulo Morais | Coinmonks | Medium
+Getting Started with Chainlink CCIP | Chainlink Documentation
+In Remix, click Deploy & Run Transactions.
+
+Under Environment, select Browser Extension or Injected Provider – MetaMask (wording may vary).
+
+MetaMask will ask you to connect. Approve the connection.
+
+Ensure MetaMask is connected to the Sepolia network.
+
+Select BankAccount from the contract dropdown.
+
+Click Deploy.
+
+Confirm the transaction in MetaMask.
+
+After successful deployment, the contract will appear under Deployed Contracts.
+
+5. Perform the Banking Operations
+Expand the deployed BankAccount contract.
+
+Learn Solidity in Y Minutes
+Writing your first Solidity Smart Contract with Remix IDE | by Kendrick | Bina Nusantara IT Division | Medium
+RareSkills
+Operation 1: Deposit Money
+Find the Value field in Remix.
+
+Enter 1.
+
+Select Ether from the unit dropdown.
+
+Click the deposit button.
+
+Confirm the transaction in MetaMask.
+
+This deposits 1 test ETH into the smart contract.
+
+Operation 2: Show Balance
+Click the showBalance button.
+
+Remix displays the balance in Wei.
+
+For example:
+
+1000000000000000000
+This represents 1 Ether.
+
+Operation 3: Withdraw Money
+Enter the amount to withdraw in Wei in the withdraw input field.
+
+For example, enter:
+
+500000000000000000
+This represents 0.5 Ether.
+3. Click withdraw.
+4. Confirm the transaction in MetaMask.
+5. Click showBalance again.
+
+The remaining balance should be 0.5 Ether.
+
+6. Expected Output
+Operation
+
+Expected result
+
+Deploy contract
+
+Contract deployed successfully
+
+Deposit 1 ETH
+
+Transaction successful
+
+Show balance
+
+1000000000000000000 Wei
+
+Withdraw 0.5 ETH
+
+Transaction successful
+
+Show balance again
+
+500000000000000000 Wei
+
+Note: The withdraw function transfers Ether to the owner's wallet. The contract balance decreases, but the owner's wallet balance increases (minus transaction gas fees).
+
+7. Result
+The Bank Account smart contract was successfully written in Solidity using compiler version 0.8.38 and deployed on the Sepolia test network using Remix IDE. The contract performs deposit, withdrawal, and balance-checking operations successfully.
+
+8. Important Viva Questions
+Q1. What is a smart contract?
+A smart contract is a self-executing program stored on a blockchain that automatically performs operations when predefined conditions are met.
+
+Q2. What is Solidity?
+Solidity is a high-level programming language used to develop smart contracts on Ethereum-compatible blockchains.
+
+Q3. What is Ether?
+Ether (ETH) is the native cryptocurrency of the Ethereum blockchain.
+
+Q4. What is msg.value?
+It represents the amount of Ether sent with the current transaction, measured in Wei.
+
+Q5. What is payable?
+The payable keyword allows a function to receive Ether.
+
+Q6. What is require()?
+It checks a condition and reverts the transaction if the condition is false.
+
+Q7. What is a test network?
+A test network is a blockchain environment used for development and testing without using real cryptocurrency.
+
+Q8. What is Remix IDE?
+Remix is a browser-based IDE used to write, compile, deploy, and test Solidity smart contracts.
+
+I can also prepare a complete practical journal write-up with Aim, Theory, Algorithm, Program, Output, Result, and Viva Questions in SPPU practical format.
+
+how to do eithout sepolia inside remix only?
+Yes! You can perform the entire Blockchain Technology practical inside Remix IDE without MetaMask, Sepolia, or any external test network.
+
+Remix provides a built-in blockchain simulator called Remix VM. It creates test accounts with free simulated ETH.
+
+Step 1: Compile the Contract
+Open Remix IDE.
+
+Open your BankAccount.sol file.
+
+Select Solidity compiler 0.8.38.
+
+Click Compile BankAccount.sol.
+
+Step 2: Deploy Using Remix VM
+Creating and Deploying a Contract — Remix - Ethereum IDE 1 documentation
+
+Debugging Transactions — Remix - Ethereum IDE 1 documentation
+iT 邦幫忙::一起幫忙解決難題，拯救 IT 人的一天
+Click Deploy & Run Transactions on the left sidebar.
+
+Under Environment, select:
+
+Remix VM (Prague) or
+
+Remix VM (Cancun) or another available Remix VM.
+
+Select the first account from the Account dropdown.
+
+You will see a test account with approximately 100 ETH.
+
+Select BankAccount from the contract dropdown.
+
+Click Deploy.
+
+The contract will be deployed locally inside Remix.
+
+No MetaMask, wallet, or internet testnet is required.
+
+Step 3: Perform Operations
+Expand the deployed contract.
+
+Deposit
+In the Value field, enter 5.
+
+Select Ether from the dropdown.
+
+Click deposit.
+
+Transaction succeeds.
+
+Show Balance
+Click showBalance.
+
+Expected output:
+
+5000000000000000000
+This equals 5 ETH.
+
+Withdraw
+Enter the following in the withdraw input:
+
+2000000000000000000
+Select the withdraw button.
+
+This withdraws 2 ETH.
+
+Click showBalance again.
+
+Expected output:
+
+3000000000000000000
+This equals 3 ETH.
+
+Step 4: Reset the Blockchain
+To start the practical again:
+
+Select another account, or
+
+Reset the Remix VM using the reset option in the environment controls.
+
+Important: Remix VM is a local simulated blockchain. Transactions are not recorded on Sepolia or any public blockchain.
+
+Practical Journal Result
+The Bank Account smart contract was successfully compiled using Solidity version 0.8.38 and deployed on the Remix VM. Deposit, withdrawal, and balance-checking operations were successfully performed using simulated Ether.
+
+This is generally the easiest approach for a college practical demonstration.
+
+i have only 0.05 SepoliaETH 
+design test case with min usage
+You can complete the entire practical using just 0.05 SepoliaETH. Since you need to deploy the contract and test deposit, withdrawal, and balance, we'll use small amounts and avoid unnecessary transactions.
+
+Test cases with minimum SepoliaETH usage
+Use the following test cases in order:
+
+Test Case
+
+Operation
+
+Amount
+
+Expected Result
+
+TC1
+
+Deploy contract
+
+—
+
+Contract deployed successfully
+
+TC2
+
+Deposit
+
+0.001 ETH
+
+Deposit successful
+
+TC3
+
+Show balance
+
+—
+
+0.001 ETH
+
+TC4
+
+Deposit
+
+0.001 ETH
+
+Deposit successful
+
+TC5
+
+Show balance
+
+—
+
+0.002 ETH
+
+TC6
+
+Withdraw
+
+0.001 ETH
+
+Withdrawal successful
+
+TC7
+
+Show balance
+
+—
+
+0.001 ETH
+
+TC8
+
+Withdraw
+
+0.002 ETH
+
+Transaction reverted due to insufficient balance
+
+Total ETH deposited: 0.002 ETH
+Maximum withdrawal: 0.001 ETH
+Remaining contract balance: 0.001 ETH
+
+This demonstrates all three operations, including insufficient-balance validation.
+
+How to enter amounts in Remix
+Deposit
+In the Value field:
+
+Enter 0.001
+
+Select Ether
+
+Click deposit
+
+Repeat once.
+
+Withdraw
+The withdraw function accepts the amount in Wei, not Ether.
+
+Ether
+
+Wei
+
+0.001 ETH
+
+1000000000000000
+
+0.002 ETH
+
+2000000000000000
+
+Enter 1000000000000000 for the successful withdrawal.
+
+Important
+Your 0.05 SepoliaETH will be used for:
+
+Contract deployment gas
+
+Deposit transaction gas
+
+Withdrawal transaction gas
+
+Deposit amounts are transferred into the contract, not consumed as gas. You can withdraw them back to your account. Gas fees are the actual cost.
+
+0.05 SepoliaETH should generally be enough for this small practical, depending on network gas prices. Avoid redeploying the contract unnecessarily.
