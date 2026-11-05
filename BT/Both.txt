@@ -1,0 +1,1027 @@
+Blockchain Technology oral questions :
+
+Write a smart contract on a test network, for Bank account of a customer for following operations:1. Deposit money 2. Withdraw Money3. Show balance
+
+Write a program in solidity to create Student data. Use the following constructs:1. Structures2. ArraysDeploy this as a smart contract on Ethereum and Observe the transaction fee and Gas values.
+Blockchain Technology – Practical + Oral Examination Preparation
+
+You have two Solidity practicals. I'll explain both from the basics, including:
+
+Aim and theory.
+
+Complete Solidity smart contract code.
+
+How to compile and deploy using Remix IDE.
+
+How to observe Gas Used and Transaction Fee.
+
+Important viva/oral questions with answers.
+
+Practical 1: Bank Account Smart Contract
+
+Problem statement: Write a smart contract on a test network for a customer's bank account to perform the following operations:
+
+Deposit money.
+
+Withdraw money.
+
+Show balance.
+
+1. Aim
+
+To develop and deploy a Solidity smart contract that performs basic banking operations such as depositing money, withdrawing money, and checking the account balance.
+
+2. Solidity program
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+contract BankAccount {
+
+    // Store the balance of each customer
+    mapping(address => uint) private balances;
+
+    // Deposit money
+    function deposit() public payable {
+        require(msg.value > 0, "Amount must be greater than zero");
+
+        balances[msg.sender] += msg.value;
+    }
+
+    // Withdraw money
+    function withdraw(uint amount) public {
+        require(amount > 0, "Amount must be greater than zero");
+        require(balances[msg.sender] >= amount, "Insufficient balance");
+
+        balances[msg.sender] -= amount;
+
+        (bool success, ) = payable(msg.sender).call{value: amount}("");
+        require(success, "Transfer failed");
+    }
+
+    // Show balance
+    function showBalance() public view returns (uint) {
+        return balances[msg.sender];
+    }
+}
+3. Explanation of the code
+
+1. mapping(address => uint) private balances;
+
+Mapping stores data in key-value pairs.
+
+address represents the customer's Ethereum wallet address.
+
+uint represents the customer's balance.
+
+Each customer has a separate balance.
+
+2. deposit() public payable
+
+payable allows the function to receive Ether.
+
+msg.value represents the amount of Ether sent with the transaction.
+
+The deposited amount is added to the customer's balance.
+
+3. withdraw(uint amount)
+
+Accepts the withdrawal amount.
+
+require() checks whether the amount is valid.
+
+Checks whether the customer has sufficient balance.
+
+Deducts the amount and transfers Ether to the customer's wallet.
+
+4. showBalance() public view returns (uint)
+
+Displays the balance of the caller.
+
+view means the function reads data without modifying blockchain state.
+
+It returns the balance in Wei.
+
+4. How to execute using Remix IDE
+8
+
+Step 1: Open Remix IDE
+
+Visit Remix IDE
+.
+
+Step 2: Create a Solidity file
+
+Open File Explorer.
+
+Create a file named BankAccount.sol.
+
+Paste the above code.
+
+Step 3: Compile the contract
+
+Open Solidity Compiler.
+
+Select compiler version 0.8.20 or compatible.
+
+Click Compile BankAccount.sol.
+
+Step 4: Connect to a test network
+
+Install MetaMask.
+
+Select the Sepolia test network.
+
+Obtain Sepolia test ETH from a faucet.
+
+In Remix, open Deploy & Run Transactions.
+
+Select Environment: Browser Extension (or the equivalent injected-provider option).
+
+Connect your MetaMask wallet.
+
+Step 5: Deploy
+
+Select BankAccount from the contract dropdown.
+
+Click Deploy.
+
+Confirm the transaction in MetaMask.
+
+Step 6: Test the operations
+
+Operation
+
+	
+
+How to execute
+
+
+
+
+Deposit
+
+	
+
+Enter an amount in the Value field, select Ether, click deposit
+
+
+
+
+Withdraw
+
+	
+
+Enter amount in Wei in withdraw field
+
+
+
+
+Show balance
+
+	
+
+Click showBalance
+
+For example:
+
+Deposit 1 ETH.
+
+Call showBalance() → 1000000000000000000 Wei.
+
+Withdraw 0.2 ETH (enter 200000000000000000).
+
+Call showBalance() → 800000000000000000 Wei.
+
+Important: The displayed balance is the contract's internal customer balance, not the wallet balance.
+
+Practical 2: Student Data Using Structures and Arrays
+
+Problem statement: Write a Solidity program to create student data using:
+
+Structures.
+
+Arrays.
+
+Deploy this smart contract on Ethereum and observe transaction fee and Gas values.
+
+1. Aim
+
+To implement a smart contract in Solidity using structures and arrays to store and retrieve student information on the Ethereum blockchain.
+
+2. Solidity program
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+contract StudentData {
+
+    // Structure to store student information
+    struct Student {
+        uint rollNo;
+        string name;
+        uint age;
+        string course;
+    }
+
+    // Array to store multiple students
+    Student[] public students;
+
+    // Add a new student
+    function addStudent(
+        uint _rollNo,
+        string memory _name,
+        uint _age,
+        string memory _course
+    ) public {
+
+        students.push(
+            Student(_rollNo, _name, _age, _course)
+        );
+    }
+
+    // Get total number of students
+    function getStudentCount() public view returns (uint) {
+        return students.length;
+    }
+
+    // Get student details using array index
+    function getStudent(uint index)
+        public
+        view
+        returns (uint, string memory, uint, string memory)
+    {
+        require(index < students.length, "Invalid student index");
+
+        Student memory s = students[index];
+
+        return (s.rollNo, s.name, s.age, s.course);
+    }
+}
+3. Explanation of the code
+
+1. Structure
+
+struct Student {
+    uint rollNo;
+    string name;
+    uint age;
+    string course;
+}
+
+A structure is a user-defined data type.
+
+It groups multiple variables of different data types.
+
+Here, one student has four attributes: roll number, name, age, and course.
+
+2. Array
+
+Student[] public students;
+
+Creates a dynamic array of Student structures.
+
+It can store multiple student records.
+
+public automatically creates a getter for individual array elements.
+
+3. Adding student
+
+students.push(
+    Student(_rollNo, _name, _age, _course)
+);
+
+push() inserts a new student into the array.
+
+Each student is stored as a structure.
+
+4. Getting student count
+
+return students.length;
+
+Returns the total number of student records.
+
+5. Getting student details
+
+Student memory s = students[index];
+
+Retrieves the student at the given array index.
+
+4. How to execute using Remix IDE
+medium
+
+Open Remix IDE
+.
+
+Create StudentData.sol.
+
+Paste the above code.
+
+Compile using Solidity compiler 0.8.20.
+
+Select Environment → Browser Extension.
+
+Connect MetaMask to Sepolia testnet.
+
+Select StudentData and click Deploy.
+
+Confirm the transaction in MetaMask.
+
+Testing the contract:
+
+Call addStudent() with the following values:
+
+Parameter
+
+	
+
+Student 1
+
+	
+
+Student 2
+
+
+
+
+Roll No
+
+	
+
+1
+
+	
+
+2
+
+
+
+
+Name
+
+	
+
+Rahul
+
+	
+
+Amit
+
+
+
+
+Age
+
+	
+
+21
+
+	
+
+22
+
+
+
+
+Course
+
+	
+
+Computer
+
+	
+
+IT
+
+Then:
+
+Click getStudentCount() → Returns 2.
+
+Click getStudent(0) → Returns Rahul's details.
+
+Click getStudent(1) → Returns Amit's details.
+
+Remember: Array indexing starts from 0, not 1.
+
+Practical 2: Observing Gas Values and Transaction Fees
+
+This is an important part of your second practical and is likely to be asked in the oral examination.
+
+1. What is Gas in Ethereum?
+
+Gas is the unit used to measure the computational effort required to execute operations on the Ethereum blockchain.
+
+For example:
+
+Deploying a smart contract consumes gas.
+
+Adding a student consumes gas.
+
+Updating blockchain data consumes gas.
+
+Reading data generally does not require an on-chain transaction.
+
+2. What is Gas Used?
+
+Gas Used is the actual amount of gas consumed by a transaction.
+
+For example:
+
+Suppose adding a student consumes 100,000 gas.
+
+Then:
+
+Gas Used = 100,000
+
+3. What is Gas Price?
+
+Gas Price is the amount paid per unit of gas.
+
+On Ethereum, it is generally expressed in Gwei.
+
+1 Gwei=10
+−9
+ ETH
+4. What is Transaction Fee?
+
+Transaction fee is the actual amount of ETH paid to execute a transaction.
+
+For a simplified calculation:
+
+Transaction Fee=Gas Used×Gas Price
+
+Example:
+
+Suppose:
+
+Gas Used = 100,000
+
+Gas Price = 20 Gwei
+
+Then:
+
+100000×20=2000000 Gwei
+Transaction Fee=0.002 ETH
+Example calculation
+
+Gas used
+
+100,000
+
+Gas price
+
+20 Gwei
+
+Transaction fee
+
+0.002 ETH
+
+Note: Ethereum currently uses EIP-1559 fee accounting. The actual transaction fee is generally:
+
+Gas Used×(Base Fee+Priority Fee)
+
+The example above assumes a total gas price of 20 Gwei.
+
+5. How to observe Gas and Transaction Fee
+
+After deploying your StudentData smart contract:
+
+Call addStudent() to insert a student.
+
+Confirm the transaction in MetaMask.
+
+Open the transaction details.
+
+Note the transaction hash.
+
+Open Sepolia Etherscan
+.
+
+Search using the transaction hash.
+
+Observe the following values:
+
+Parameter
+
+	
+
+Meaning
+
+
+
+
+Transaction Hash
+
+	
+
+Unique transaction identifier
+
+
+
+
+Gas Limit
+
+	
+
+Maximum gas allowed
+
+
+
+
+Gas Used
+
+	
+
+Actual gas consumed
+
+
+
+
+Gas Price
+
+	
+
+Cost per unit of gas
+
+
+
+
+Transaction Fee
+
+	
+
+Total fee paid
+
+
+
+
+Block Number
+
+	
+
+Block containing the transaction
+
+altcointrader.co
+
+Important observations for your practical:
+
+Contract deployment generally consumes more gas than adding a student.
+
+Adding a student modifies blockchain storage and costs gas.
+
+Reading student details using getStudent() does not require an on-chain transaction when called as a normal read.
+
+Adding more data generally increases gas consumption.
+
+Gas consumption depends on the operations and data being stored.
+
+Do not write fabricated gas values in your practical journal. Record the actual values from your deployed transactions.
+
+Important Blockchain Oral / Viva Questions
+
+Here are the questions I recommend preparing for these two practicals.
+
+A. Blockchain fundamentals
+
+1. What is Blockchain?
+
+Blockchain is a distributed and decentralized digital ledger that stores information in blocks connected using cryptographic hashes.
+
+2. What are the main features of Blockchain?
+
+Decentralization.
+
+Transparency.
+
+Immutability.
+
+Security.
+
+Distributed ledger.
+
+Consensus mechanism.
+
+3. What is Ethereum?
+
+Ethereum is a decentralized blockchain platform that allows developers to create and execute smart contracts and decentralized applications (DApps).
+
+4. What is a Smart Contract?
+
+A smart contract is a self-executing program stored on a blockchain that automatically executes predefined instructions when specified conditions are satisfied.
+
+5. What is Solidity?
+
+Solidity is a high-level, statically typed programming language used to develop smart contracts, primarily for Ethereum-compatible blockchains.
+
+6. What is Ethereum Virtual Machine (EVM)?
+
+EVM is the runtime environment that executes smart contract bytecode on Ethereum.
+
+7. What is a test network?
+
+A test network is a blockchain network used to develop and test smart contracts without spending real cryptocurrency.
+
+Examples:
+
+Sepolia.
+
+Holesky (historically used for testing; check its current support).
+
+8. What is Remix IDE?
+
+Remix is a browser-based IDE used to write, compile, debug, and deploy Solidity smart contracts.
+
+B. Solidity-related questions
+
+9. What is the difference between public, private, and internal?
+
+Keyword
+
+	
+
+Meaning
+
+
+
+
+public
+
+	
+
+Accessible from inside and outside the contract
+
+
+
+
+private
+
+	
+
+Accessible only within the declaring contract
+
+
+
+
+internal
+
+	
+
+Accessible within the contract and derived contracts
+
+
+
+
+external
+
+	
+
+Intended to be called from outside the contract
+
+10. What is msg.sender?
+
+It returns the address of the account or contract that directly called the current function.
+
+11. What is msg.value?
+
+It represents the amount of Ether sent along with the current function call, measured in Wei.
+
+12. What is payable?
+
+payable is a Solidity keyword that allows a function or address to receive Ether.
+
+13. What is require()?
+
+require() checks a condition. If the condition is false, execution stops and the transaction is reverted.
+
+Example:
+
+require(amount > 0, "Invalid amount");
+
+14. What is a mapping?
+
+A mapping is a key-value data structure used to associate one value with another.
+
+Example:
+
+mapping(address => uint) balances;
+
+15. What is a struct?
+
+A structure is a user-defined data type that groups multiple variables, possibly of different data types, together.
+
+16. What is an array?
+
+An array is a collection of elements of the same data type.
+
+17. What is the difference between static and dynamic arrays?
+
+Static array: Fixed size.
+
+Dynamic array: Size can change during execution.
+
+Example:
+
+uint[5] fixedArray;
+uint[] dynamicArray;
+
+18. What is the difference between memory and storage?
+
+Memory
+
+	
+
+Storage
+
+
+
+
+Temporary data location
+
+	
+
+Persistent contract data
+
+
+
+
+Exists during function execution
+
+	
+
+Exists on blockchain
+
+
+
+
+Generally cheaper
+
+	
+
+Generally more expensive
+
+19. What is view?
+
+A view function reads contract state but does not modify it.
+
+20. What is pure?
+
+A pure function neither reads nor modifies the contract's stored state.
+
+C. Gas and transaction questions
+
+21. Why is Gas required in Ethereum?
+
+Gas prevents unlimited computation and compensates validators for processing transactions.
+
+22. Who receives the transaction fee?
+
+The base fee is burned, while the priority fee goes to the block proposer (validator).
+
+23. What happens if the gas limit is insufficient?
+
+The transaction runs out of gas and reverts. The gas consumed is still charged.
+
+24. Why does storing data on Blockchain cost more gas?
+
+Because data stored in blockchain state must be maintained by the network, requiring additional computational and storage resources.
+
+25. Does calling a view function cost gas?
+
+When called externally as an ordinary read operation, it does not require an on-chain transaction and costs no transaction fee.
+
+However, if called from another smart contract as part of an on-chain transaction, its execution consumes gas.
+
+D. Questions specifically related to your practicals
+
+26. Why did we use mapping in the BankAccount contract?
+
+To store individual customer balances using their Ethereum wallet addresses as keys.
+
+27. Why did we use msg.sender?
+
+To identify the customer performing the banking operation and maintain separate balances for different customers.
+
+28. Why is deposit() declared payable?
+
+Because it needs to receive Ether from the customer's wallet.
+
+29. What is Wei?
+
+Wei is the smallest unit of Ether.
+
+1 ETH=10
+18
+ Wei
+
+30. Why do we use students.push()?
+
+To insert a new Student structure into the dynamic array.
+
+31. Why did we use memory in the Student structure program?
+
+To temporarily hold string parameters and retrieved student information during function execution.
+
+32. What is the difference between call() and transfer()?
+
+call() is a low-level method for transferring Ether and supports returning success or failure.
+
+transfer() transfers Ether with a fixed 2300 gas stipend and reverts on failure.
+
+33. Can blockchain data be modified or deleted?
+
+Blockchain records are designed to be immutable. Existing records cannot ordinarily be changed or deleted; new transactions can record updated information.
+
+34. What happens when a smart contract is deployed?
+
+Solidity code is compiled into EVM bytecode.
+
+A deployment transaction is submitted.
+
+The contract is executed and stored on the blockchain.
+
+A unique contract address is generated.
+
+Deployment consumes gas.
+
+35. What is a transaction hash?
+
+A transaction hash is a unique identifier generated for a blockchain transaction. It can be used to track transaction details on a blockchain explorer.
+
+Quick revision: Important keywords
+
+Keyword
+
+	
+
+Remember this
+
+
+
+
+Solidity
+
+	
+
+Smart contract programming language
+
+
+
+
+Ethereum
+
+	
+
+Blockchain platform
+
+
+
+
+EVM
+
+	
+
+Executes smart contracts
+
+
+
+
+Remix
+
+	
+
+Solidity development IDE
+
+
+
+
+MetaMask
+
+	
+
+Ethereum wallet
+
+
+
+
+Sepolia
+
+	
+
+Ethereum testnet
+
+
+
+
+msg.sender
+
+	
+
+Caller address
+
+
+
+
+msg.value
+
+	
+
+Ether sent in Wei
+
+
+
+
+payable
+
+	
+
+Allows receiving Ether
+
+
+
+
+require()
+
+	
+
+Condition checking
+
+
+
+
+mapping
+
+	
+
+Key-value storage
+
+
+
+
+struct
+
+	
+
+Groups variables
+
+
+
+
+array
+
+	
+
+Collection of elements
+
+
+
+
+push()
+
+	
+
+Adds an array element
+
+
+
+
+view
+
+	
+
+Reads state
+
+
+
+
+Gas
+
+	
+
+Computational effort
+
+
+
+
+Gas Used
+
+	
+
+Actual gas consumed
+
+
+
+
+Gas Price
+
+	
+
+Cost per gas unit
+
+
+
+
+Transaction Fee
+
+	
+
+Total transaction cost
